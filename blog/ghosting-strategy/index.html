@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>不讀不回怎麼辦？聰明人先做這件事 - VibeSync Blog</title>
+    <meta name="description" content="面對不讀不回，最忌諱的就是連續發問「在忙嗎？」。聰明人都在用 VibeSync 進行對話診斷，讓 AI 幫你判斷局勢，精準破冰。">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #09090e 0%, #171236 40%, #2a0b36 100%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.6), 0 0 20px rgba(138,43,226,0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #818cf8, #e879f9, #818cf8);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .zh-reading {
+            text-align: justify;
+            text-justify: inter-ideograph;
+            line-height: 1.85;
+            word-break: break-word;
+        }
+
+        ::-webkit-scrollbar { display: none; }
+
+        /* 手機螢幕模擬框 */
+        .phone-frame {
+            background: #1a1a2e;
+            border-radius: 28px;
+            border: 2px solid rgba(255,255,255,0.15);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            overflow: hidden;
+        }
+
+        .score-ring {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 5px solid #f43f8e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            position: relative;
+        }
+
+        .radar-bg {
+            background: radial-gradient(circle, rgba(239,68,68,0.05) 0%, rgba(239,68,68,0.02) 100%);
+        }
+
+        .stage-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .reply-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+        }
+    </style>
+</head>
+<body class="text-gray-800 min-h-screen flex flex-col items-center pt-8 pb-32 px-5 relative overflow-x-hidden">
+
+    <!-- 返回連結 -->
+    <div class="w-full max-w-lg mb-6 relative z-10">
+        <a href="/blog" class="inline-flex items-center gap-2 text-indigo-300 text-sm font-medium hover:text-indigo-200 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+            返回 Blog
+        </a>
+    </div>
+
+    <!-- 文章標頭 -->
+    <header class="w-full max-w-lg mb-10 relative z-10">
+        <div class="inline-flex items-center px-3 py-1 rounded-full border border-rose-400/30 bg-rose-900/30 text-rose-300 text-xs font-bold mb-5">
+            💬 聊天技巧
+        </div>
+        <h1 class="text-[2rem] leading-[1.25] font-black text-white tracking-tight mb-5">
+            不讀不回怎麼辦？<br>
+            <span class="gradient-text">聰明人先做這件事</span>
+        </h1>
+        <div class="flex items-center gap-3 text-gray-400 text-sm">
+            <span>2026 年 4 月</span>
+            <span class="text-gray-600">·</span>
+            <span>VibeSync 編輯部</span>
+        </div>
+    </header>
+
+    <main class="w-full max-w-lg space-y-8 relative z-10">
+
+        <!-- 文章主體 -->
+        <section class="glass-card rounded-[28px] p-7 sm:p-9">
+            <p class="text-gray-700 text-[16px] zh-reading mb-6">
+                面對不讀不回，最忌諱的就是連續發問：<strong class="text-rose-600">「在忙嗎？」</strong>、<strong class="text-rose-600">「怎麼不理我？」</strong>這會徹底摧毀你的吸引力。
+            </p>
+            <p class="text-gray-700 text-[16px] zh-reading">
+                聰明的人會先進行「<strong class="text-indigo-700">對話診斷</strong>」。打開 VibeSync，上傳你們最後的對話截圖，系統會自動判定你們目前處於哪一個 <strong class="text-indigo-700">Game Stage</strong>（社交階段）。如果系統顯示對方的熱情值（Enthusiasm）極低，它會建議你使用「<strong class="text-indigo-700">冷處理策略</strong>」；若只是話題斷掉，它則會提供專屬的<strong class="text-indigo-700">「破冰回話卡片」</strong>，幫你用一個輕鬆幽默的方式重新開啟連結，而不是卑微地討好。
+            </p>
+        </section>
+
+        <!-- 分隔標題 -->
+        <div class="text-center py-2">
+            <h2 class="text-white text-lg font-bold tracking-wide">看看 VibeSync 如何幫你扭轉局面</h2>
+            <p class="text-gray-400 text-sm mt-1">四大核心功能，全面掌握對話主導權</p>
+        </div>
+
+        <!-- 功能一：對話健康分數 -->
+        <section class="phone-frame p-5">
+            <div class="mb-4">
+                <p class="text-indigo-300 text-xs font-bold uppercase tracking-widest mb-1">功能 01</p>
+                <h3 class="text-white text-lg font-black">對話健康分數 & 五維度剖析</h3>
+                <p class="text-gray-400 text-sm mt-1">秒速讀懂互動溫度，點出每個維度的強弱</p>
+            </div>
+
+            <!-- 模擬截圖內容 -->
+            <div style="background: linear-gradient(135deg, #f8f0ff 0%, #fdf4ff 100%); border-radius: 20px; padding: 16px;">
+                <!-- 健康分數 -->
+                <div style="background: white; border-radius: 16px; padding: 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+                    <div class="score-ring">
+                        <span style="font-size: 22px; font-weight: 900; color: #1f1f2e; line-height: 1;">85</span>
+                        <span style="font-size: 10px; color: #f43f8e; font-weight: 700;">高熱</span>
+                    </div>
+                    <div>
+                        <p style="color: #f97316; font-size: 12px; font-weight: 700; margin-bottom: 2px;">對話健康分數</p>
+                        <p style="color: #1f1f2e; font-size: 16px; font-weight: 900;">超高熱度！趁熱推進見面 🔥</p>
+                    </div>
+                </div>
+                <!-- 五維度 -->
+                <div style="background: white; border-radius: 16px; padding: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span style="font-size: 16px; font-weight: 900; color: #1f1f2e;">五維度剖析</span>
+                        <span style="color: #f43f8e; font-size: 12px;">本次・0-100</span>
+                    </div>
+                    <!-- 五維度數值列表 -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <div style="display: flex; flex-direction: column; gap: 4px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; background: #fff5f8; border-radius: 8px; padding: 6px 10px;">
+                                <span style="color: #555; font-size: 13px;">熱度</span>
+                                <span style="color: #f43f8e; font-weight: 800; font-size: 15px;">85</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; background: #fff5f8; border-radius: 8px; padding: 6px 10px;">
+                                <span style="color: #555; font-size: 13px;">話題深度</span>
+                                <span style="color: #f43f8e; font-weight: 800; font-size: 15px;">40</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; background: #fff5f8; border-radius: 8px; padding: 6px 10px;">
+                                <span style="color: #555; font-size: 13px;">情感連結</span>
+                                <span style="color: #f43f8e; font-weight: 800; font-size: 15px;">75</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 4px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; background: #fff5f8; border-radius: 8px; padding: 6px 10px;">
+                                <span style="color: #555; font-size: 13px;">投入度</span>
+                                <span style="color: #f43f8e; font-weight: 800; font-size: 15px;">90</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; background: #fff5f8; border-radius: 8px; padding: 6px 10px;">
+                                <span style="color: #555; font-size: 13px;">回覆意願</span>
+                                <span style="color: #f43f8e; font-weight: 800; font-size: 15px;">95</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-gray-400 text-xs mt-3 text-center">5 個維度完整評估，不只看「有沒有回」，更看「怎麼回」</p>
+        </section>
+
+        <!-- 功能二：對話進度 & 她話裡的意思 -->
+        <section class="phone-frame p-5">
+            <div class="mb-4">
+                <p class="text-purple-300 text-xs font-bold uppercase tracking-widest mb-1">功能 02</p>
+                <h3 class="text-white text-lg font-black">Game Stage 社交階段判定</h3>
+                <p class="text-gray-400 text-sm mt-1">自動識別目前在哪個階段，給出對應策略</p>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #f8f0ff 0%, #fdf4ff 100%); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+                <!-- 對話進度 -->
+                <div style="background: white; border-radius: 16px; padding: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <span style="font-size: 16px; font-weight: 900; color: #1f1f2e;">對話進度</span>
+                        <span style="background: #fff3ed; color: #f97316; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px;">目前・升溫</span>
+                    </div>
+                    <!-- 進度條 -->
+                    <div style="display: flex; align-items: center; gap: 0; margin-bottom: 8px;">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: #f97316; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px;">1</div>
+                            <span style="font-size: 10px; color: #f97316; font-weight: 600;">破冰</span>
+                        </div>
+                        <div style="flex: 1; height: 2px; background: #f97316; margin: 0 2px; margin-bottom: 14px;"></div>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: #f97316; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px;">2</div>
+                            <span style="font-size: 10px; color: #f97316; font-weight: 600;">升溫</span>
+                        </div>
+                        <div style="flex: 1; height: 2px; background: #e5e7eb; margin: 0 2px; margin-bottom: 14px;"></div>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: #e5e7eb; color: #9ca3af; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px;">3</div>
+                            <span style="font-size: 10px; color: #9ca3af; font-weight: 600;">深入</span>
+                        </div>
+                        <div style="flex: 1; height: 2px; background: #e5e7eb; margin: 0 2px; margin-bottom: 14px;"></div>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: #e5e7eb; color: #9ca3af; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px;">4</div>
+                            <span style="font-size: 10px; color: #9ca3af; font-weight: 600;">連結</span>
+                        </div>
+                        <div style="flex: 1; height: 2px; background: #e5e7eb; margin: 0 2px; margin-bottom: 14px;"></div>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: #e5e7eb; color: #9ca3af; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px;">5</div>
+                            <span style="font-size: 10px; color: #9ca3af; font-weight: 600;">邀約</span>
+                        </div>
+                    </div>
+                    <div style="background: #fff8f5; border-radius: 10px; padding: 8px 12px; display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 16px;">💡</span>
+                        <span style="color: #555; font-size: 13px;">保持穩定回應，不要被過度熱情沖昏頭</span>
+                    </div>
+                </div>
+                <!-- 她話裡的意思 -->
+                <div style="background: white; border-radius: 16px; padding: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <span style="font-size: 20px;">🧠</span>
+                        <span style="font-size: 16px; font-weight: 900; color: #1f1f2e;">她話裡的意思</span>
+                    </div>
+                    <p style="color: #555; font-size: 14px; line-height: 1.7;">她用很多親暱稱呼和表情符號，想建立親密感，但要觀察這是她的習慣還是真的對你特別</p>
+                </div>
+            </div>
+            <p class="text-gray-400 text-xs mt-3 text-center">AI 解碼對方話語背後的真實意圖，讓你不再猜測</p>
+        </section>
+
+        <!-- 功能三：5 種回覆風格 -->
+        <section class="phone-frame p-5">
+            <div class="mb-4">
+                <p class="text-pink-300 text-xs font-bold uppercase tracking-widest mb-1">功能 03</p>
+                <h3 class="text-white text-lg font-black">回覆建議・5 種風格</h3>
+                <p class="text-gray-400 text-sm mt-1">不同情境切換風格，還有 AI 精選最佳推薦</p>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #f8f0ff 0%, #fdf4ff 100%); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+                <!-- 風格卡片 -->
+                <div style="display: flex; gap: 10px; overflow: hidden;">
+                    <div style="background: white; border-radius: 16px; padding: 14px; flex: 1; min-width: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+                        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+                            <span style="font-size: 16px;">🔄</span>
+                            <span style="color: #3b82f6; font-weight: 800; font-size: 14px;">延展</span>
+                        </div>
+                        <p style="color: #555; font-size: 13px; line-height: 1.6;">菜色還可以，就是份量對運動後的你可能不太夠哈哈</p>
+                        <p style="color: #f97316; font-size: 11px; font-weight: 700; margin-top: 8px;">為什麼推薦・順勢接話並深挖細節</p>
+                    </div>
+                    <div style="background: white; border-radius: 16px; padding: 14px; flex: 1; min-width: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.06); opacity: 0.7;">
+                        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+                            <span style="font-size: 16px;">💬</span>
+                            <span style="color: #f97316; font-weight: 800; font-size: 14px;">共鳴</span>
+                        </div>
+                        <p style="color: #555; font-size: 13px; line-height: 1.6;">運動完碎碎念想吃什麼...</p>
+                        <p style="color: #f97316; font-size: 11px; font-weight: 700; margin-top: 8px;">為什麼推薦・...</p>
+                    </div>
+                </div>
+                <!-- AI 推薦 -->
+                <div style="background: linear-gradient(135deg, #2d1f6e 0%, #1e1a4a 100%); border-radius: 16px; padding: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                        <span style="font-size: 18px;">⭐</span>
+                        <span style="color: white; font-weight: 800; font-size: 15px;">AI 推薦回覆</span>
+                    </div>
+                    <div style="background: #111; border-radius: 12px; padding: 12px; margin-bottom: 10px;">
+                        <p style="color: white; font-size: 15px; font-weight: 700; line-height: 1.6;">搭心搭餅是什麼神秘食物，聽起來很像武功秘笈</p>
+                    </div>
+                    <div style="background: rgba(99,82,255,0.8); border-radius: 12px; padding: 12px; text-align: center;">
+                        <span style="color: white; font-weight: 700; font-size: 14px;">📋 複製推薦回覆</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-gray-400 text-xs mt-3 text-center">五種策略一鍵切換，找不到感覺直接用 AI 最佳解</p>
+        </section>
+
+        <!-- 功能四：幫我優化 -->
+        <section class="phone-frame p-5">
+            <div class="mb-4">
+                <p class="text-emerald-300 text-xs font-bold uppercase tracking-widest mb-1">功能 04</p>
+                <h3 class="text-white text-lg font-black">我有想說的，幫我優化</h3>
+                <p class="text-gray-400 text-sm mt-1">輸入你的想法，AI 幫你包裝成更有魅力的表達</p>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #f8f0ff 0%, #fdf4ff 100%); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+                <!-- 輸入區 -->
+                <div style="background: white; border-radius: 16px; padding: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                        <span style="font-size: 16px;">✏️</span>
+                        <span style="font-size: 15px; font-weight: 900; color: #1f1f2e;">我有想說的，幫我優化</span>
+                    </div>
+                    <div style="background: #f9f9f9; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; border: 1px solid #eee;">
+                        <span style="color: #aaa; font-size: 14px;">你有男朋友嗎</span>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 12px; padding: 12px; text-align: center;">
+                        <span style="color: white; font-weight: 700; font-size: 14px;">✨ 幫我優化</span>
+                    </div>
+                </div>
+                <!-- 優化結果 -->
+                <div style="background: white; border-radius: 16px; padding: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+                    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 10px;">
+                        <span style="font-size: 16px;">✨</span>
+                        <span style="font-size: 14px; font-weight: 900; color: #1f1f2e;">優化後的訊息</span>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 12px; padding: 12px; margin-bottom: 8px;">
+                        <p style="color: white; font-size: 15px; font-weight: 800; line-height: 1.6;">感覺你是那種會照顧人的類型，你男朋友應該很幸福吧</p>
+                    </div>
+                    <p style="color: #aaa; font-size: 12px; line-height: 1.5;">💡 避免直球查戶口，改用假設性冷讀，既能探到底又不會太突兀</p>
+                </div>
+            </div>
+            <p class="text-gray-400 text-xs mt-3 text-center">把直白的想法變成有趣的表達，保留你的個性</p>
+        </section>
+
+        <!-- 結語 CTA -->
+        <section class="glass-card rounded-[28px] p-7 sm:p-9 text-center">
+            <div class="text-4xl mb-4">🚀</div>
+            <h3 class="text-[19px] font-black text-gray-900 mb-3">不讀不回？換你讓她等回覆</h3>
+            <p class="text-gray-600 text-[15px] zh-reading mb-6">
+                別再傻傻發「在嗎」，讓 VibeSync 幫你診斷對話狀態，用正確的策略重新點燃她的興趣。
+            </p>
+            <div class="inline-flex items-center justify-center px-8 py-3.5 font-bold text-white/80 bg-white/10 border border-white/20 rounded-full cursor-default backdrop-blur-md text-[15px]">
+                App Store 即將上線
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full max-w-lg text-center mt-12 mb-4 px-4 relative z-10">
+        <div class="pt-6 border-t border-white/10 flex flex-col items-center justify-center gap-4">
+            <div class="flex gap-5 text-[13px] font-medium text-gray-400 tracking-wide">
+                <a href="/" class="hover:text-indigo-400 transition-colors">首頁</a>
+                <span class="text-gray-600">|</span>
+                <a href="/blog" class="hover:text-indigo-400 transition-colors">Blog</a>
+                <span class="text-gray-600">|</span>
+                <a href="/privacy" class="hover:text-indigo-400 transition-colors">隱私權政策</a>
+                <span class="text-gray-600">|</span>
+                <a href="/terms" class="hover:text-indigo-400 transition-colors">服務條款</a>
+            </div>
+            <p class="text-gray-500 text-xs opacity-60 tracking-wider">© 2026 VibeSync. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 底部固定按鈕（手機） -->
+    <div class="fixed bottom-0 left-0 w-full p-5 bg-[#0e0a24]/90 backdrop-blur-2xl border-t border-white/10 z-50 rounded-t-[32px] shadow-[0_-20px_40px_rgba(0,0,0,0.4)] sm:hidden">
+        <div class="w-full relative rounded-2xl flex items-center justify-center p-[1px]">
+            <div class="relative w-full bg-white/5 border border-white/10 backdrop-blur-sm rounded-2xl py-4 flex items-center justify-center gap-2 cursor-default">
+                <div class="text-[16px] text-white/70 font-bold tracking-wide">App Store 即將上線</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
