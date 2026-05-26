@@ -96,9 +96,10 @@
             <p>這部分很重要，請您特別留意：</p>
             <ul>
                 <li>您的對話內容與截圖<strong>預設儲存在您的本地裝置</strong>。</li>
-                <li>當您<strong>主動點擊分析、Coach 1:1、開場救星、截圖辨識或相關 AI 功能</strong>時，系統會將完成該次請求所需的對話內容、截圖與相關上下文，傳送到我們的處理服務與 AI 供應商，以產生分析結果。</li>
+                <li>當您<strong>主動點擊分析、Coach 1:1、開場救星、截圖辨識或相關 AI 功能</strong>時，系統會將完成該次請求所需的對話內容、截圖、對方名稱、您填寫的情境或草稿與相關上下文，傳送到我們的處理服務與第三方 AI 服務 Anthropic Claude API，以產生分析結果。</li>
                 <li>App 只會在您主動選取聊天截圖時要求相簿/照片選取權限；不會背景讀取相簿，也不使用相機、麥克風、定位或通訊錄權限。</li>
-                <li>這些內容可能經由我們的後端服務（例如 Supabase Edge Functions）轉送至 AI 供應商進行處理。</li>
+                <li>這些內容可能經由我們的後端服務（例如 Supabase Edge Functions）轉送至 Anthropic Claude API 進行處理。</li>
+                <li>App 會在送出相關 AI 請求前，於畫面中說明會傳送哪些資料、資料會傳送給誰，並取得您的明確同意；若您不同意，該次 AI 請求不會送出。</li>
                 <li>我們<strong>不會將原始對話內容作為長期營運資料庫內容保存</strong>，也<strong>不會使用您的原始對話內容訓練我們自己的模型</strong>。</li>
                 <li>開場救星的最近結果與草稿可能保存在您的本地裝置，方便您離開頁面後回看；您可透過 App 內流程或移除 App 來清除本地資料。</li>
                 <li>我們可能保留與請求有關的<strong>有限技術性中繼資料</strong>，例如錯誤狀態、延遲、模型名稱、token 使用量、訂閱/額度扣抵結果，以維護服務品質、安全性與成本控制。</li>
@@ -139,7 +140,7 @@
                         <tr><td>對話內容、開場草稿與部分個人化資料</td><td>本地裝置</td><td>主要保存在本地資料庫</td></tr>
                         <tr><td>帳號資訊</td><td>Supabase</td><td>用於身份驗證與基本帳號資料管理</td></tr>
                         <tr><td>訂閱資訊</td><td>RevenueCat / App Store / Google Play</td><td>用於訂閱驗證與權限同步</td></tr>
-                        <tr><td>AI 分析請求內容</td><td>請求處理期間由我們的後端與 AI 供應商處理</td><td>用於完成您主動發起的分析功能</td></tr>
+                        <tr><td>AI 分析請求內容</td><td>請求處理期間由 VibeSync 後端與 Anthropic Claude API 處理</td><td>用於完成您主動發起的分析、截圖辨識、開場建議、Coach 1:1 或草稿潤飾功能</td></tr>
                         <tr><td>技術性紀錄與額度資料</td><td>Supabase / 相關服務</td><td>用於監控、除錯、防濫用與成本控管</td></tr>
                     </tbody>
                 </table>
@@ -166,13 +167,13 @@
                     </thead>
                     <tbody>
                         <tr><td>Supabase</td><td>帳號驗證、後端處理、資料儲存</td><td>帳號資訊、訂閱狀態、技術紀錄、分析請求處理資料</td></tr>
-                        <tr><td>Anthropic / AI 供應商</td><td>AI 分析、Coach 1:1、開場救星與截圖辨識</td><td>您主動送出的對話內容、截圖與相關上下文</td></tr>
+                        <tr><td>Anthropic Claude API</td><td>AI 分析、Coach 1:1、開場救星、截圖辨識與草稿潤飾</td><td>您主動送出的對話內容、截圖、對方名稱、情境/草稿與相關上下文</td></tr>
                         <tr><td>RevenueCat</td><td>訂閱管理</td><td>訂閱狀態、產品識別資訊</td></tr>
                         <tr><td>Apple / Google</td><td>第三方登入、付款處理</td><td>付款與登入所需的識別資訊</td></tr>
                     </tbody>
                 </table>
             </div>
-            <p>各第三方服務皆有其獨立的隱私政策與資料處理方式。我們建議您一併查閱：</p>
+            <p>我們只會在提供服務所必要的範圍內與第三方服務分享資料，並選擇提供相同或相當資料保護措施的服務供應商。各第三方服務皆有其獨立的隱私政策與資料處理方式，我們建議您一併查閱：</p>
             <ul>
                 <li>Supabase: <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">https://supabase.com/privacy</a></li>
                 <li>Anthropic: <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener noreferrer">https://www.anthropic.com/privacy</a></li>
