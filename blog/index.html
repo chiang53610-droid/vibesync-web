@@ -18,20 +18,39 @@
                         flame: { DEFAULT: '#FF6A2B', dark: '#E85A1E' },
                         blush: '#FF2D8B',
                     },
-                    fontFamily: { sans: ['"Noto Sans TC"', 'sans-serif'] },
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                        display: ['"Noto Serif TC"', 'serif'],
+                    },
                     borderRadius: { '4xl': '28px' },
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@900&display=swap');
 
         body {
             font-family: 'Noto Sans TC', sans-serif;
-            background: #150C24;
             color: #F3EEF8;
             -webkit-font-smoothing: antialiased;
+            /* 氛圍：與首頁一致的品牌色微光暈 */
+            background-color: #150C24;
+            background-image:
+                radial-gradient(1000px 620px at 85% -10%, rgba(255, 106, 43, 0.14), transparent 65%),
+                radial-gradient(900px 700px at -15% 40%, rgba(255, 45, 139, 0.09), transparent 65%);
+            background-attachment: fixed;
+        }
+
+        /* 細噪點質地：與首頁一致 */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            pointer-events: none;
+            opacity: 0.045;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
         .zh-reading { line-height: 1.8; word-break: break-word; }
@@ -55,11 +74,22 @@
         .btn { transition: transform .15s ease, background-color .2s ease, color .2s ease, border-color .2s ease; }
         .btn:active { transform: scale(.98); }
 
+        /* 文章卡微互動：與首頁一致，僅限游標裝置 */
+        .lift { transition: transform 0.3s ease, border-color 0.3s ease; }
+
+        @media (hover: hover) and (pointer: fine) {
+            @media (prefers-reduced-motion: no-preference) {
+                .lift:hover { transform: translateY(-4px); }
+            }
+
+            .lift:hover { border-color: rgba(255, 106, 43, 0.4); }
+        }
+
         ::selection { background: #FF6A2B; color: #150C24; }
         ::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="min-h-screen pb-24 sm:pb-0">
+<body class="min-h-screen pb-24 sm:pb-0 flex flex-col">
 
     <!-- 導覽列 -->
     <header class="sticky top-0 z-50 bg-ink/80 backdrop-blur-md border-b border-white/10">
@@ -74,7 +104,7 @@
         </div>
     </header>
 
-    <main class="max-w-3xl mx-auto px-6">
+    <main class="w-full max-w-3xl mx-auto px-6 pb-16">
 
         <div class="pt-8">
             <a href="/" class="inline-flex items-center gap-2 text-white/60 text-sm font-bold hover:text-flame transition-colors py-2 -my-2">
@@ -83,7 +113,7 @@
         </div>
 
         <header class="pt-10 pb-10">
-            <h1 class="text-4xl md:text-5xl font-black tracking-tight text-white">
+            <h1 class="font-display text-4xl md:text-5xl font-black tracking-tight text-white">
                 VibeSync <span class="text-flame">Blog</span>
             </h1>
             <p class="text-white/60 text-[15px] mt-3">聊天技巧、交友心法、AI 助攻秘笈</p>
@@ -91,7 +121,7 @@
 
         <div class="space-y-5">
             <a href="/blog/ghosting-strategy" class="block group reveal">
-                <article class="rounded-[28px] bg-surface border border-white/10 p-6 md:p-7 transition-colors group-hover:border-flame/40">
+                <article class="lift rounded-[28px] bg-surface border border-white/10 p-6 md:p-7">
                     <div class="flex items-start gap-5">
                         <div class="w-14 h-14 shrink-0 rounded-2xl bg-flame/15 flex items-center justify-center">
                             <i class="ph ph-chats-circle text-3xl text-flame"></i>
@@ -115,7 +145,7 @@
 
     </main>
 
-    <footer class="bg-[#0E0719] border-t border-white/10 mt-16">
+    <footer class="w-full bg-[#0E0719] border-t border-white/10 mt-auto">
         <div class="max-w-3xl mx-auto px-6 py-10 flex flex-col items-center gap-4">
             <div class="flex gap-5 text-[13px] font-bold text-white/55 tracking-wide">
                 <a href="/" class="hover:text-flame transition-colors py-3 -my-3 inline-flex items-center">首頁</a>
