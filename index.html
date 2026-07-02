@@ -106,6 +106,16 @@
             opacity: 0.4;
         }
 
+        /* 分數卡底圖上的品牌漸層覆蓋：透出模糊的「她」，維持白字對比 */
+        .signature-veil {
+            background: linear-gradient(135deg, rgba(255, 106, 43, 0.86) 0%, rgba(255, 45, 139, 0.86) 100%);
+        }
+
+        /* 練習室卡：左側近乎實色保文字可讀，右側微透出模糊人像 */
+        .practice-veil {
+            background: linear-gradient(100deg, rgba(31, 19, 48, 0.97) 40%, rgba(31, 19, 48, 0.6) 100%);
+        }
+
         /* 分數條：載入時從 0 長到目標值（無 to 區塊 = 長回 inline width） */
         @media (prefers-reduced-motion: no-preference) {
             .meter-fill {
@@ -196,7 +206,11 @@
 
             <!-- 健康分數視覺（產品招牌功能的圖像化呈現） -->
             <div class="md:col-span-5 reveal">
-                <div class="signature text-white rounded-[28px] p-8 shadow-[0_30px_60px_-20px_rgba(255,106,43,0.45)]">
+                <div class="signature text-white rounded-[28px] shadow-[0_30px_60px_-20px_rgba(255,106,43,0.45)]">
+                    <div class="relative overflow-hidden rounded-[28px] p-8">
+                    <img src="assets/img/mood-coral.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover" style="object-position: 50% 28%;">
+                    <div class="signature-veil absolute inset-0"></div>
+                    <div class="relative">
                     <div class="flex items-start justify-between">
                         <div>
                             <div class="text-7xl font-black leading-none">85</div>
@@ -218,6 +232,8 @@
                             <div class="flex justify-between text-sm font-bold mb-1.5"><span class="text-white/85">回覆意願</span><span>95</span></div>
                             <div class="h-1.5 rounded-full bg-white/25"><div class="meter-fill h-1.5 rounded-full bg-white" style="width:95%"></div></div>
                         </div>
+                    </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -310,12 +326,16 @@
                     </p>
                 </div>
 
-                <div class="lift reveal rounded-[28px] bg-surface border border-white/10 p-8">
-                    <i class="ph ph-users-three text-3xl text-flame"></i>
-                    <h3 class="text-xl font-bold mt-5 mb-3 text-white">AI 實戰練習室</h3>
-                    <p class="text-[15px] text-white/70 zh-reading">
-                        <strong class="text-flame font-bold">60 位不同風格的女孩</strong>陪你實戰訓練，練完拿一張教練拆解卡，真正上場不再手抖。
-                    </p>
+                <div class="lift reveal relative overflow-hidden rounded-[28px] bg-surface border border-white/10 p-8">
+                    <img src="assets/img/mood-studio.jpg" alt="" aria-hidden="true" loading="lazy" class="absolute inset-0 w-full h-full object-cover" style="object-position: 50% 32%; filter: saturate(1.35);">
+                    <div class="practice-veil absolute inset-0"></div>
+                    <div class="relative">
+                        <i class="ph ph-users-three text-3xl text-flame"></i>
+                        <h3 class="text-xl font-bold mt-5 mb-3 text-white">AI 實戰練習室</h3>
+                        <p class="text-[15px] text-white/70 zh-reading">
+                            <strong class="text-flame font-bold">60 位不同風格的女孩</strong>陪你實戰訓練，練完拿一張教練拆解卡，真正上場不再手抖。
+                        </p>
+                    </div>
                 </div>
 
                 <div class="lift reveal rounded-[28px] bg-surface border border-white/10 p-8">
