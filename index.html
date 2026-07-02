@@ -91,9 +91,15 @@
             position: relative;
             transform: rotate(-2deg);
             transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+            will-change: transform;
         }
 
-        .signature:hover { transform: rotate(0deg); }
+        /* hover 回正只給真的有游標的裝置：
+           觸控裝置的 sticky hover 會在點擊時觸發回正，旋轉過渡讓
+           blur 光暈與圓角裁切邊在行動端 GPU 重柵格化，產生殘影痕跡 */
+        @media (hover: hover) and (pointer: fine) {
+            .signature:hover { transform: rotate(0deg); }
+        }
 
         .signature::before {
             content: '';
@@ -146,16 +152,19 @@
             }
         }
 
-        /* 卡片微互動：安靜的浮起，不與招牌卡搶戲 */
+        /* 卡片微互動：安靜的浮起，不與招牌卡搶戲。僅限游標裝置，
+           避免觸控 sticky hover 造成卡片停在浮起狀態 */
         .lift {
             transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        @media (prefers-reduced-motion: no-preference) {
-            .lift:hover { transform: translateY(-4px); }
-        }
+        @media (hover: hover) and (pointer: fine) {
+            @media (prefers-reduced-motion: no-preference) {
+                .lift:hover { transform: translateY(-4px); }
+            }
 
-        .lift:hover { border-color: rgba(255, 106, 43, 0.4); }
+            .lift:hover { border-color: rgba(255, 106, 43, 0.4); }
+        }
 
         ::selection { background: #FF6A2B; color: #150C24; }
         ::-webkit-scrollbar { display: none; }
