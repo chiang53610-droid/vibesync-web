@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>別再拿心儀的她練手感：AI 實戰練習室 - VibeSync Blog</title>
+    <meta name="description" content="跟真人聊天沒有重來鍵。VibeSync AI 實戰練習室有 60 位不同風格的女孩陪你實戰訓練，練完拿教練拆解卡，真正上場不再手抖。">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#150C24',
+                        surface: '#1F1330',
+                        surface2: '#2A1840',
+                        flame: { DEFAULT: '#FF6A2B', dark: '#E85A1E' },
+                        blush: '#FF2D8B',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                        display: ['"Noto Serif TC"', 'serif'],
+                    },
+                    borderRadius: { '4xl': '28px' },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@900&display=swap');
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            color: #F3EEF8;
+            -webkit-font-smoothing: antialiased;
+            /* 氛圍：與首頁一致的品牌色微光暈 */
+            background-color: #150C24;
+            background-image:
+                radial-gradient(1000px 620px at 85% -10%, rgba(255, 106, 43, 0.14), transparent 65%),
+                radial-gradient(900px 700px at -15% 40%, rgba(255, 45, 139, 0.09), transparent 65%);
+            background-attachment: fixed;
+        }
+
+        /* 細噪點質地：與首頁一致 */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            pointer-events: none;
+            opacity: 0.045;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .zh-reading { line-height: 1.85; word-break: break-word; }
+
+        .reveal { opacity: 1; }
+        @supports (animation-timeline: view()) {
+            @media (prefers-reduced-motion: no-preference) {
+                .reveal {
+                    opacity: 0;
+                    animation: reveal-in linear both;
+                    animation-timeline: view();
+                    animation-range: entry 0% entry 35%;
+                }
+            }
+        }
+        @keyframes reveal-in {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        .btn { transition: transform .15s ease, background-color .2s ease, color .2s ease, border-color .2s ease; }
+        .btn:active { transform: scale(.98); }
+
+        .signature { background: linear-gradient(135deg, #FF6A2B 0%, #FF2D8B 100%); }
+
+        ::selection { background: #FF6A2B; color: #150C24; }
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="min-h-screen pb-24 sm:pb-0">
+
+    <!-- 導覽列 -->
+    <header class="sticky top-0 z-50 bg-ink/80 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-1.5 text-xl font-black tracking-tight text-white">
+                VibeSync<span class="w-2 h-2 rounded-full bg-flame inline-block mb-3"></span>
+            </a>
+            <nav class="flex items-center gap-7 text-sm font-bold text-white/80">
+                <a href="/#features" class="hover:text-flame transition-colors py-3 -my-3 inline-flex items-center">功能</a>
+                <a href="/blog" class="text-flame py-3 -my-3 inline-flex items-center">Blog</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6">
+
+        <div class="pt-8">
+            <a href="/blog" class="inline-flex items-center gap-2 text-white/60 text-sm font-bold hover:text-flame transition-colors py-2 -my-2">
+                <i class="ph ph-arrow-left"></i> 返回 Blog
+            </a>
+        </div>
+
+        <!-- 文章標頭 -->
+        <header class="pt-9 pb-9">
+            <span class="inline-flex items-center px-3 py-1 rounded-full bg-flame/10 text-flame text-xs font-bold mb-5">實戰練習</span>
+            <h1 class="font-display text-[2rem] md:text-[2.6rem] leading-[1.3] font-black tracking-tight text-white">
+                別再拿心儀的她練手感<br>
+                <span class="text-flame">上場前，先在練習室磨到穩</span>
+            </h1>
+            <div class="flex items-center gap-3 text-white/45 text-sm font-bold mt-5">
+                <span>2026 年 7 月</span>
+                <span>·</span>
+                <span>VibeSync 編輯部</span>
+            </div>
+        </header>
+
+        <!-- 文章開頭 -->
+        <article class="rounded-[28px] bg-surface border border-white/10 p-7 md:p-9 reveal">
+            <p class="text-white/80 text-[16px] zh-reading mb-6">
+                想一下你上次聊掛掉的那個對象。是開場太乾？問句太多像面試？還是熱過頭把她嚇跑？不管是哪一種，代價都一樣——<strong class="text-flame">她不會給你第二次機會</strong>。
+            </p>
+            <p class="text-white/80 text-[16px] zh-reading mb-6">
+                殘酷的事實是：大多數男人的聊天能力，都是拿「真的很想追的人」練出來的。等你終於練會，喜歡的早就換人了。
+            </p>
+            <p class="text-white/80 text-[16px] zh-reading">
+                球員上場前會先練球，你上場前卻只能硬上。<strong class="text-flame">AI 實戰練習室</strong>就是為這件事存在的：<strong class="text-flame">60 位不同風格的女孩</strong>陪你實戰對話，聊砸幾次都沒關係——這裡的每一次失誤，都不用付出真實代價。
+            </p>
+        </article>
+
+        <!-- 分隔標題 -->
+        <div class="text-center pt-14 pb-8">
+            <h2 class="font-display text-2xl md:text-3xl font-black tracking-tight text-white">練習室怎麼把你練穩</h2>
+            <p class="text-white/55 text-sm mt-2">抽對象、實戰聊、教練拆解——三步一輪，越練越敢</p>
+        </div>
+
+        <div class="space-y-5">
+
+            <!-- 步驟 01：抽一位對象 -->
+            <section class="rounded-[28px] bg-surface border border-white/10 p-6 md:p-8 reveal">
+                <p class="text-flame text-xs font-bold tracking-widest mb-1">步驟 01</p>
+                <h3 class="text-white text-lg font-black mb-1">抽一位風格對象</h3>
+                <p class="text-white/55 text-sm mb-6">每一位都有自己的職業、個性和交友目標，不是同一個模板換名字</p>
+
+                <div class="rounded-[22px] bg-surface2 border border-white/10 p-6">
+                    <div class="flex items-center gap-4 mb-5">
+                        <img src="/assets/img/mood-studio.jpg" alt="" aria-hidden="true" loading="lazy" class="w-16 h-16 rounded-full object-cover border-2 border-flame/40" style="object-position: 50% 18%;">
+                        <div>
+                            <div class="text-white font-black text-lg">Alice · 27</div>
+                            <div class="text-white/55 text-sm">航空業空服員 · 台北</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/15 text-white/70 text-xs font-bold">慢熱</span>
+                        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/15 text-white/70 text-xs font-bold">獨立</span>
+                        <span class="px-3 py-1 rounded-full bg-white/5 border border-white/15 text-white/70 text-xs font-bold">有點防備</span>
+                        <span class="px-3 py-1 rounded-full bg-flame/15 text-flame text-xs font-bold">交友目標：慢慢認識</span>
+                    </div>
+                    <div class="rounded-xl bg-white/5 border border-white/10 px-4 py-3">
+                        <p class="text-white/70 text-sm zh-reading">「排班有點不固定，但遇到有趣的人會想多聊一點。」</p>
+                    </div>
+                </div>
+                <p class="text-white/45 text-xs mt-4 text-center">空服員、護理師、咖啡師、設計師、瑜珈老師……60 種人生，60 種聊法</p>
+            </section>
+
+            <!-- 步驟 02：像真的一樣聊 -->
+            <section class="rounded-[28px] bg-surface border border-white/10 p-6 md:p-8 reveal">
+                <p class="text-flame text-xs font-bold tracking-widest mb-1">步驟 02</p>
+                <h3 class="text-white text-lg font-black mb-1">像真的一樣聊</h3>
+                <p class="text-white/55 text-sm mb-6">她的回覆有個性——慢熱的不會自動熱場，愛玩的不會等你想好</p>
+
+                <div class="rounded-[22px] bg-surface2 border border-white/10 p-6 space-y-3">
+                    <div class="flex justify-end">
+                        <div class="max-w-[80%] rounded-2xl rounded-br-md signature px-4 py-2.5">
+                            <p class="text-white text-[15px] zh-reading">飛來飛去的生活，有沒有哪個城市讓你想多待一天？</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-start">
+                        <div class="max-w-[80%] rounded-2xl rounded-bl-md bg-white/8 border border-white/10 px-4 py-2.5">
+                            <p class="text-white/85 text-[15px] zh-reading">大阪吧，雖然每次都只待一天 😂</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-start">
+                        <div class="max-w-[80%] rounded-2xl rounded-bl-md bg-white/8 border border-white/10 px-4 py-2.5">
+                            <p class="text-white/85 text-[15px] zh-reading">你去過嗎？</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-white/45 text-xs mt-4 text-center">聊得好，她會慢慢打開；聊得乾，她也會冷掉——就像真實世界一樣</p>
+            </section>
+
+            <!-- 步驟 03：教練拆解卡 -->
+            <section class="rounded-[28px] bg-surface border border-white/10 p-6 md:p-8 reveal">
+                <p class="text-flame text-xs font-bold tracking-widest mb-1">步驟 03</p>
+                <h3 class="text-white text-lg font-black mb-1">練完拿教練拆解卡</h3>
+                <p class="text-white/55 text-sm mb-6">哪句加分、哪句掉分、下次怎麼接——每一輪練習都變成你的養分</p>
+
+                <div class="rounded-[22px] bg-surface2 border border-flame/30 p-6 space-y-4">
+                    <div class="flex items-center gap-2">
+                        <i class="ph-fill ph-clipboard-text text-flame text-lg"></i>
+                        <span class="text-white font-black">本輪拆解</span>
+                    </div>
+                    <div class="rounded-xl bg-white/5 border border-white/10 px-4 py-3 flex items-start gap-2.5">
+                        <i class="ph-bold ph-arrow-up-right text-flame text-lg mt-0.5"></i>
+                        <div>
+                            <p class="text-white/85 text-sm font-bold mb-0.5">這句加分</p>
+                            <p class="text-white/60 text-sm zh-reading">用她的職業開話題，具體、不油，她接得起來。</p>
+                        </div>
+                    </div>
+                    <div class="rounded-xl bg-white/5 border border-white/10 px-4 py-3 flex items-start gap-2.5">
+                        <i class="ph-bold ph-arrow-down-right text-white/50 text-lg mt-0.5"></i>
+                        <div>
+                            <p class="text-white/85 text-sm font-bold mb-0.5">這句掉分</p>
+                            <p class="text-white/60 text-sm zh-reading">連續兩個問句，開始像面試——她回覆的字數立刻變短。</p>
+                        </div>
+                    </div>
+                    <div class="rounded-xl signature px-4 py-3">
+                        <p class="text-white text-sm font-bold mb-0.5">下次這樣接</p>
+                        <p class="text-white/90 text-sm zh-reading">拋一點自己的經驗再收尾，讓她也有東西可以問你。</p>
+                    </div>
+                </div>
+                <p class="text-white/45 text-xs mt-4 text-center">失誤在這裡發生，成長帶去真實世界</p>
+            </section>
+
+        </div>
+
+        <!-- 為什麼有效 -->
+        <article class="rounded-[28px] bg-surface border border-white/10 p-7 md:p-9 mt-14 reveal">
+            <h2 class="font-display text-xl md:text-2xl font-black text-white mb-4">為什麼練習室有效？</h2>
+            <p class="text-white/80 text-[16px] zh-reading mb-6">
+                因為聊天跟投籃一樣是<strong class="text-flame">肌肉記憶</strong>。你不是不知道「不要查戶口」「不要熱過頭」，你是在真的緊張起來的那一刻做不到。知道和做到之間，隔著的就是練習量。
+            </p>
+            <p class="text-white/80 text-[16px] zh-reading">
+                在練習室，你可以放心試那些平常不敢傳的開場、練習被冷回時怎麼穩住、感受聊天節奏什麼時候該推什麼時候該收。等你回到真的交友軟體，手就不抖了——因為這個局面，你已經走過幾十次。
+            </p>
+        </article>
+
+        <!-- 結語 CTA -->
+        <section class="rounded-[28px] bg-surface border border-white/10 p-8 md:p-10 text-center mt-14 reveal">
+            <div class="w-14 h-14 mx-auto rounded-full bg-flame/15 flex items-center justify-center mb-5">
+                <i class="ph-fill ph-boxing-glove text-2xl text-flame"></i>
+            </div>
+            <h3 class="font-display text-xl md:text-2xl font-black text-white mb-3">真正的她，只有一次機會<br>練習，不用</h3>
+            <p class="text-white/65 text-[15px] zh-reading mb-7 max-w-md mx-auto">
+                60 位不同風格的女孩在練習室等你開場。聊砸了，抽下一位再來；練穩了，帶著手感去見真的她。
+            </p>
+            <span class="btn inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-flame text-ink text-[15px] font-bold cursor-default hover:bg-flame-dark">
+                <i class="ph-fill ph-apple-logo text-lg"></i> App Store 即將上線
+            </span>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#0E0719] border-t border-white/10 mt-16">
+        <div class="max-w-3xl mx-auto px-6 py-10 flex flex-col items-center gap-4">
+            <div class="flex gap-5 text-[13px] font-bold text-white/55 tracking-wide">
+                <a href="/" class="hover:text-flame transition-colors py-3 -my-3 inline-flex items-center">首頁</a>
+                <span class="text-white/25">|</span>
+                <a href="/blog" class="hover:text-flame transition-colors py-3 -my-3 inline-flex items-center">Blog</a>
+                <span class="text-white/25">|</span>
+                <a href="/privacy" class="hover:text-flame transition-colors py-3 -my-3 inline-flex items-center">隱私權政策</a>
+                <span class="text-white/25">|</span>
+                <a href="/terms" class="hover:text-flame transition-colors py-3 -my-3 inline-flex items-center">服務條款</a>
+            </div>
+            <p class="text-white/40 text-xs tracking-wider">© 2026 VibeSync. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="fixed bottom-0 left-0 w-full p-4 bg-ink/95 backdrop-blur-md border-t border-white/10 z-50 sm:hidden">
+        <div class="w-full rounded-full bg-flame text-ink py-4 flex items-center justify-center gap-2 cursor-default">
+            <i class="ph-fill ph-apple-logo"></i>
+            <span class="text-[15px] font-bold">App Store 即將上線</span>
+        </div>
+    </div>
+
+</body>
+</html>
