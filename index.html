@@ -17,20 +17,40 @@
                         flame: { DEFAULT: '#FF6A2B', dark: '#E85A1E' },
                         blush: '#FF2D8B',
                     },
-                    fontFamily: { sans: ['"Noto Sans TC"', 'sans-serif'] },
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                        display: ['"Noto Serif TC"', 'serif'],
+                    },
                     borderRadius: { '4xl': '28px' },
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@900&display=swap');
 
         body {
             font-family: 'Noto Sans TC', sans-serif;
-            background: #150C24;
             color: #F3EEF8;
             -webkit-font-smoothing: antialiased;
+            /* 氛圍：以品牌 flame/blush 打底的微光暈，靜態、不搶戲 */
+            background-color: #150C24;
+            background-image:
+                radial-gradient(1000px 620px at 85% -10%, rgba(255, 106, 43, 0.16), transparent 65%),
+                radial-gradient(900px 700px at -15% 35%, rgba(255, 45, 139, 0.10), transparent 65%),
+                radial-gradient(800px 600px at 110% 78%, rgba(255, 106, 43, 0.07), transparent 65%);
+            background-attachment: fixed;
+        }
+
+        /* 細噪點質地：壓住純色漸層的「塑膠感」，低透明度、不擋互動 */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            pointer-events: none;
+            opacity: 0.045;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
         /* 中文排版：舒適行距 */
@@ -65,9 +85,67 @@
         }
         .btn:active { transform: scale(.98); }
 
+        /* 招牌元素：對話健康分數卡。全頁的 boldness 集中在這裡。 */
         .signature {
             background: linear-gradient(135deg, #FF6A2B 0%, #FF2D8B 100%);
+            position: relative;
+            transform: rotate(-2deg);
+            transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
+
+        .signature:hover { transform: rotate(0deg); }
+
+        .signature::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            z-index: -1;
+            border-radius: inherit;
+            background: linear-gradient(135deg, #FF6A2B 0%, #FF2D8B 100%);
+            filter: blur(44px);
+            opacity: 0.4;
+        }
+
+        /* 分數條：載入時從 0 長到目標值（無 to 區塊 = 長回 inline width） */
+        @media (prefers-reduced-motion: no-preference) {
+            .meter-fill {
+                animation: meter-in 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s both;
+            }
+        }
+
+        @keyframes meter-in {
+            from { width: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .signature { transform: none; }
+        }
+
+        /* 旅程三步驟：桌機版以漸層細線把步驟串起來，強化「一段路」的語意 */
+        @media (min-width: 768px) {
+            .step-card { position: relative; }
+
+            .step-card:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 56px;
+                right: -1.25rem;
+                width: 1.25rem;
+                height: 2px;
+                background: linear-gradient(90deg, rgba(255, 106, 43, 0.55), rgba(255, 45, 139, 0.25));
+            }
+        }
+
+        /* 卡片微互動：安靜的浮起，不與招牌卡搶戲 */
+        .lift {
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .lift:hover { transform: translateY(-4px); }
+        }
+
+        .lift:hover { border-color: rgba(255, 106, 43, 0.4); }
 
         ::selection { background: #FF6A2B; color: #150C24; }
         ::-webkit-scrollbar { display: none; }
@@ -97,7 +175,7 @@
                     <i class="ph-fill ph-rocket-launch"></i> 你專屬的 AI 約會教練 · 專為男性打造
                 </span>
 
-                <h1 class="text-[2.2rem] sm:text-6xl md:text-7xl font-black leading-[1.1] sm:leading-[1.05] tracking-tight mb-6 text-white">
+                <h1 class="font-display text-[2.2rem] sm:text-6xl md:text-7xl font-black leading-[1.15] sm:leading-[1.1] tracking-tight mb-6 text-white">
                     配對成功只是開始<br>
                     <span class="text-flame">讓她期待你的回覆</span>
                 </h1>
@@ -130,15 +208,15 @@
                     <div class="mt-8 space-y-4">
                         <div>
                             <div class="flex justify-between text-sm font-bold mb-1.5"><span class="text-white/85">熱度</span><span>85</span></div>
-                            <div class="h-1.5 rounded-full bg-white/25"><div class="h-1.5 rounded-full bg-white" style="width:85%"></div></div>
+                            <div class="h-1.5 rounded-full bg-white/25"><div class="meter-fill h-1.5 rounded-full bg-white" style="width:85%"></div></div>
                         </div>
                         <div>
                             <div class="flex justify-between text-sm font-bold mb-1.5"><span class="text-white/85">投入度</span><span>90</span></div>
-                            <div class="h-1.5 rounded-full bg-white/25"><div class="h-1.5 rounded-full bg-white" style="width:90%"></div></div>
+                            <div class="h-1.5 rounded-full bg-white/25"><div class="meter-fill h-1.5 rounded-full bg-white" style="width:90%"></div></div>
                         </div>
                         <div>
                             <div class="flex justify-between text-sm font-bold mb-1.5"><span class="text-white/85">回覆意願</span><span>95</span></div>
-                            <div class="h-1.5 rounded-full bg-white/25"><div class="h-1.5 rounded-full bg-white" style="width:95%"></div></div>
+                            <div class="h-1.5 rounded-full bg-white/25"><div class="meter-fill h-1.5 rounded-full bg-white" style="width:95%"></div></div>
                         </div>
                     </div>
                 </div>
@@ -147,18 +225,18 @@
 
         <!-- 產品旅程：開場救星 → 截圖分析 → AI 教練 1:1 -->
         <section id="journey" class="max-w-6xl mx-auto px-6 py-16 md:py-20">
-            <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-4 text-white reveal">從配對到約出來，三步搞定</h2>
+            <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight mb-4 text-white reveal">從配對到約出來，三步搞定</h2>
             <p class="text-[16px] text-white/70 zh-reading max-w-[44ch] mb-12 reveal">
                 VibeSync 不只幫你回一句話，而是陪你走完整段對話——每一步都知道下一步在哪。
             </p>
 
             <div class="grid md:grid-cols-3 gap-5">
-                <div class="reveal rounded-[28px] bg-surface border border-white/10 p-8">
+                <div class="step-card lift reveal rounded-[28px] bg-surface border border-white/10 p-8">
                     <div class="flex items-center justify-between mb-6">
                         <div class="w-14 h-14 rounded-full bg-flame/15 flex items-center justify-center">
                             <i class="ph ph-magic-wand text-3xl text-flame"></i>
                         </div>
-                        <span class="text-4xl font-black text-white/15">01</span>
+                        <span class="font-display italic text-4xl font-black text-white/20">01</span>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-white">開場救星</h3>
                     <p class="text-[15px] text-white/70 zh-reading">
@@ -166,12 +244,12 @@
                     </p>
                 </div>
 
-                <div class="reveal rounded-[28px] bg-surface border border-white/10 p-8">
+                <div class="step-card lift reveal rounded-[28px] bg-surface border border-white/10 p-8">
                     <div class="flex items-center justify-between mb-6">
                         <div class="w-14 h-14 rounded-full bg-flame/15 flex items-center justify-center">
                             <i class="ph ph-camera text-3xl text-flame"></i>
                         </div>
-                        <span class="text-4xl font-black text-white/15">02</span>
+                        <span class="font-display italic text-4xl font-black text-white/20">02</span>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-white">截圖分析</h3>
                     <p class="text-[15px] text-white/70 zh-reading">
@@ -179,12 +257,12 @@
                     </p>
                 </div>
 
-                <div class="reveal rounded-[28px] bg-surface border border-white/10 p-8">
+                <div class="step-card lift reveal rounded-[28px] bg-surface border border-white/10 p-8">
                     <div class="flex items-center justify-between mb-6">
                         <div class="w-14 h-14 rounded-full bg-flame/15 flex items-center justify-center">
                             <i class="ph ph-chats-teardrop text-3xl text-flame"></i>
                         </div>
-                        <span class="text-4xl font-black text-white/15">03</span>
+                        <span class="font-display italic text-4xl font-black text-white/20">03</span>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-white">AI 教練 1:1</h3>
                     <p class="text-[15px] text-white/70 zh-reading">
@@ -196,11 +274,11 @@
 
         <!-- 功能 -->
         <section id="features" class="max-w-6xl mx-auto px-6 py-16 md:py-20">
-            <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-12 text-white reveal">AI 如何幫你脫單？</h2>
+            <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight mb-12 text-white reveal">AI 如何幫你脫單？</h2>
 
             <div class="grid md:grid-cols-2 gap-5">
                 <!-- 招牌功能：橘色描邊強調 -->
-                <div class="reveal rounded-[28px] bg-surface2 border border-flame/30 p-8">
+                <div class="lift reveal rounded-[28px] bg-surface2 border border-flame/30 p-8">
                     <i class="ph-fill ph-chats-teardrop text-3xl text-flame"></i>
                     <h3 class="text-xl font-bold mt-5 mb-3 text-white">AI 教練 1:1</h3>
                     <p class="text-[15px] text-white/70 zh-reading">
@@ -208,7 +286,7 @@
                     </p>
                 </div>
 
-                <div class="reveal rounded-[28px] bg-surface border border-white/10 p-8">
+                <div class="lift reveal rounded-[28px] bg-surface border border-white/10 p-8">
                     <i class="ph-fill ph-fire text-3xl text-flame"></i>
                     <h3 class="text-xl font-bold mt-5 mb-3 text-white">即時熱度分析 & 健檢</h3>
                     <p class="text-[15px] text-white/70 zh-reading">
@@ -216,7 +294,7 @@
                     </p>
                 </div>
 
-                <div class="reveal rounded-[28px] bg-surface border border-white/10 p-8">
+                <div class="lift reveal rounded-[28px] bg-surface border border-white/10 p-8">
                     <i class="ph ph-chats-circle text-3xl text-flame"></i>
                     <h3 class="text-xl font-bold mt-5 mb-3 text-white">5+1 智慧回覆策略</h3>
                     <p class="text-[15px] text-white/70 zh-reading">
@@ -224,7 +302,7 @@
                     </p>
                 </div>
 
-                <div class="reveal rounded-[28px] bg-surface border border-white/10 p-8">
+                <div class="lift reveal rounded-[28px] bg-surface border border-white/10 p-8">
                     <i class="ph ph-brain text-3xl text-flame"></i>
                     <h3 class="text-xl font-bold mt-5 mb-3 text-white">AI 記得每一個她</h3>
                     <p class="text-[15px] text-white/70 zh-reading">
@@ -232,7 +310,7 @@
                     </p>
                 </div>
 
-                <div class="reveal rounded-[28px] bg-surface border border-white/10 p-8">
+                <div class="lift reveal rounded-[28px] bg-surface border border-white/10 p-8">
                     <i class="ph ph-users-three text-3xl text-flame"></i>
                     <h3 class="text-xl font-bold mt-5 mb-3 text-white">AI 實戰練習室</h3>
                     <p class="text-[15px] text-white/70 zh-reading">
@@ -240,7 +318,7 @@
                     </p>
                 </div>
 
-                <div class="reveal rounded-[28px] bg-surface border border-white/10 p-8">
+                <div class="lift reveal rounded-[28px] bg-surface border border-white/10 p-8">
                     <i class="ph ph-book-open-text text-3xl text-flame"></i>
                     <h3 class="text-xl font-bold mt-5 mb-3 text-white">學習專區</h3>
                     <p class="text-[15px] text-white/70 zh-reading">
@@ -257,7 +335,7 @@
                     <i class="ph ph-lock-key text-3xl text-flame"></i>
                 </div>
                 <div>
-                    <h2 class="text-2xl font-black tracking-tight mb-3 text-white">隱私優先，清楚透明</h2>
+                    <h2 class="font-display text-2xl font-black tracking-tight mb-3 text-white">隱私優先，清楚透明</h2>
                     <p class="text-[15px] text-white/70 zh-reading">
                         對話內容預設以 AES-256 加密保存在你的裝置中；只有在你主動使用分析或截圖辨識時，系統才會傳送完成該次請求所需的內容，用於產生 AI 建議。
                     </p>
@@ -270,7 +348,7 @@
     <!-- Footer -->
     <footer class="bg-[#0E0719] border-t border-white/10">
         <div class="max-w-6xl mx-auto px-6 py-16 md:py-24 text-center">
-            <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-8 max-w-2xl mx-auto leading-tight text-white">
+            <h2 class="font-display text-3xl md:text-5xl font-black tracking-tight mb-8 max-w-2xl mx-auto leading-tight text-white">
                 馬上提升社交價值，<br class="hidden sm:block">讓她對你上癮
             </h2>
             <span class="btn inline-flex items-center gap-2 px-8 py-4 rounded-full bg-flame text-ink text-[15px] font-bold cursor-default hover:bg-flame-dark mb-12">
