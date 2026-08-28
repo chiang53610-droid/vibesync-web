@@ -85,57 +85,177 @@
         }
         .btn:active { transform: scale(.98); }
 
-        /* 招牌元素：對話健康分數卡。全頁的 boldness 集中在這裡。 */
-        .signature {
-            background: linear-gradient(135deg, #FF6A2B 0%, #FF2D8B 100%);
-            position: relative;
-            transform: rotate(-2deg);
-            transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
-            will-change: transform;
-        }
-
-        /* hover 回正只給真的有游標的裝置：
-           觸控裝置的 sticky hover 會在點擊時觸發回正，旋轉過渡讓
-           blur 光暈與圓角裁切邊在行動端 GPU 重柵格化，產生殘影痕跡 */
-        @media (hover: hover) and (pointer: fine) {
-            .signature:hover { transform: rotate(0deg); }
-        }
-
-        .signature::before {
-            content: '';
-            position: absolute;
-            inset: -20px;
-            z-index: -1;
-            border-radius: inherit;
-            background: linear-gradient(135deg, #FF6A2B 0%, #FF2D8B 100%);
-            filter: blur(44px);
-            opacity: 0.4;
-        }
-
-        /* 分數卡底圖上的品牌漸層覆蓋：透出模糊的「她」，維持白字對比 */
-        .signature-veil {
-            background: linear-gradient(135deg, rgba(255, 106, 43, 0.86) 0%, rgba(255, 45, 139, 0.86) 100%);
-        }
-
         /* 練習室卡：左側近乎實色保文字可讀，右側微透出模糊人像 */
         .practice-veil {
             background: linear-gradient(100deg, rgba(31, 19, 48, 0.96) 38%, rgba(31, 19, 48, 0.48) 100%);
         }
 
-        /* 分數條：載入時從 0 長到目標值（無 to 區塊 = 長回 inline width） */
-        @media (prefers-reduced-motion: no-preference) {
-            .meter-fill {
-                animation: meter-in 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s both;
-            }
+        /* ============================================================
+           iPhone Mockup 元件（可重用）
+           結構：.iphone-mockup（尺寸/傾角）
+                 > .iphone-key ×4（實體鍵，DOM 在前、被機身蓋住重疊處）
+                 > .iphone-body（鈦金屬機身）
+                   > .iphone-gasket（黑色密封膠圈）
+                     > .iphone-glass（螢幕玻璃，含反光層）
+                       > .iphone-display（顯示區，放任意螢幕內容）
+                         > .iphone-island（Dynamic Island）
+           所有厚度、圓角、島寬皆由 --phone-w 派生，任何尺寸維持同比例。
+           ============================================================ */
+        .iphone-mockup {
+            --phone-w: clamp(220px, 68vw, 300px);
+            --phone-r: calc(var(--phone-w) * 0.152);      /* 外框圓角 ≈ 寬度 15.2% */
+            --phone-metal: calc(var(--phone-w) * 0.018);  /* 鈦金屬機身 ≈7px @390 */
+            --phone-gasket: calc(var(--phone-w) * 0.007); /* 密封膠圈 ≈2.7px @390 */
+            --phone-bezel: calc(var(--phone-w) * 0.024);  /* 螢幕邊框 ≈9.4px @390 */
+            position: relative;
+            width: var(--phone-w);
+            aspect-ratio: 390 / 844;
+            transform: rotate(-2deg); /* 沿用原分數卡的傾角構圖 */
+            transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        @keyframes meter-in {
-            from { width: 0; }
+        @media (min-width: 768px) {
+            .iphone-mockup { --phone-w: clamp(280px, 30vw, 390px); }
+        }
+
+        /* hover 回正只給真的有游標的裝置，避免觸控 sticky hover */
+        @media (hover: hover) and (pointer: fine) {
+            .iphone-mockup:hover { transform: rotate(0deg); }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .signature { transform: none; }
+            .iphone-mockup { transform: none; transition: none; }
         }
+
+        /* 鈦金屬機身：縱向鈦色打底 + 斜向亮銀/深灰交替反射，
+           三層中性黑灰陰影（接觸/環境/輪廓），無彩色光暈 */
+        .iphone-body {
+            position: absolute;
+            inset: 0;
+            border-radius: var(--phone-r);
+            background:
+                linear-gradient(102deg,
+                    rgba(255, 255, 255, 0.30) 0%,
+                    rgba(255, 255, 255, 0.00) 9%,
+                    rgba(8, 9, 12, 0.38) 26%,
+                    rgba(213, 217, 225, 0.15) 47%,
+                    rgba(6, 7, 10, 0.42) 69%,
+                    rgba(255, 255, 255, 0.28) 91%,
+                    rgba(146, 150, 158, 0.22) 100%),
+                linear-gradient(180deg,
+                    #878b93 0%, #4c5058 3.5%, #35383f 10%,
+                    #2d3037 45%, #33363d 82%, #5d6169 96%, #22252b 100%);
+            box-shadow:
+                0 2px 3px rgba(6, 5, 10, 0.6),
+                0 26px 48px -14px rgba(6, 5, 10, 0.55),
+                0 60px 90px -40px rgba(6, 5, 10, 0.38);
+        }
+
+        /* 最外緣 1px 克制高光線（遮罩成環，不糊邊） */
+        .iphone-body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(165deg,
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0.10) 22%,
+                rgba(255, 255, 255, 0.03) 48%,
+                rgba(255, 255, 255, 0.14) 76%,
+                rgba(255, 255, 255, 0.42) 100%);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* 黑色密封膠圈：外側投出細窄深色縫線，螢幕像嵌入機身 */
+        .iphone-gasket {
+            position: absolute;
+            inset: var(--phone-metal);
+            border-radius: calc(var(--phone-r) - var(--phone-metal));
+            background: #06070a;
+            box-shadow: 0 0 calc(var(--phone-metal) * 0.7) rgba(0, 0, 0, 0.6);
+        }
+
+        /* 螢幕玻璃（黑色極窄邊框層） */
+        .iphone-glass {
+            position: absolute;
+            inset: var(--phone-gasket);
+            border-radius: calc(var(--phone-r) - var(--phone-metal) - var(--phone-gasket));
+            background: #000;
+            overflow: hidden;
+        }
+
+        /* 顯示區：螢幕內容精準裁切在此，四角不露白 */
+        .iphone-display {
+            position: absolute;
+            inset: var(--phone-bezel);
+            border-radius: calc(var(--phone-r) - var(--phone-metal) - var(--phone-gasket) - var(--phone-bezel));
+            overflow: hidden;
+            background: #150C24;
+        }
+
+        /* 螢幕玻璃反光：左上角局部斜向淡白，低透明度、不擋互動 */
+        .iphone-glare {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background: linear-gradient(118deg,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(255, 255, 255, 0.30) 11%,
+                rgba(255, 255, 255, 0.00) 23%,
+                rgba(255, 255, 255, 0.00) 74%,
+                rgba(255, 255, 255, 0.35) 96%);
+            opacity: 0.12;
+        }
+
+        /* Dynamic Island：膠囊形、近純黑、輕微內縮陰影與低調鏡頭反射點 */
+        .iphone-island {
+            position: absolute;
+            top: calc(var(--phone-w) * 0.026);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 28.5%;
+            height: calc(var(--phone-w) * 0.066);
+            border-radius: 999px;
+            background: #030304;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .iphone-lens {
+            width: calc(var(--phone-w) * 0.03);
+            height: calc(var(--phone-w) * 0.03);
+            margin-right: calc(var(--phone-w) * 0.017);
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 32%, #34353d 0%, #17181d 45%, #060608 78%);
+        }
+
+        /* 實體側鍵：與機身同系鈦金屬漸層，微凸出、上緣高光下緣陰影 */
+        .iphone-key {
+            position: absolute;
+            width: calc(var(--phone-w) * 0.018);
+            border-radius: calc(var(--phone-w) * 0.007);
+            background: linear-gradient(180deg,
+                #74787f 0%, #3b3e45 18%, #2e3138 50%, #3d4047 84%, #16181d 100%);
+            box-shadow:
+                inset 0 1px 1px rgba(255, 255, 255, 0.28),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.55),
+                0 1px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        .iphone-key-left { left: calc(var(--phone-w) * -0.009); }
+        .iphone-key-right { right: calc(var(--phone-w) * -0.009); }
+        .iphone-key-action { top: 15%; height: 3.4%; }
+        .iphone-key-volup { top: 20.6%; height: 6.4%; }
+        .iphone-key-voldown { top: 28.2%; height: 6.4%; }
+        .iphone-key-power { top: 22.4%; height: 10.2%; }
 
         /* 旅程三步驟：桌機版以漸層細線把步驟串起來，強化「一段路」的語意 */
         @media (min-width: 768px) {
@@ -213,36 +333,23 @@
                 </div>
             </div>
 
-            <!-- 健康分數視覺（產品招牌功能的圖像化呈現） -->
-            <div class="md:col-span-5 reveal">
-                <div class="signature text-white rounded-[28px] shadow-[0_30px_60px_-20px_rgba(255,106,43,0.45)]">
-                    <div class="relative overflow-hidden rounded-[28px] p-8">
-                    <img src="assets/img/mood-coral.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover" style="object-position: 50% 28%;">
-                    <div class="signature-veil absolute inset-0"></div>
-                    <div class="relative">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <div class="text-7xl font-black leading-none">85</div>
-                            <div class="mt-2 text-sm font-bold text-white/90">對話健康分數 · 高熱</div>
+            <!-- 產品視覺：iPhone mockup，螢幕內為 App 的 AI 實戰練習室畫面 -->
+            <div class="md:col-span-5 reveal flex justify-center md:justify-end">
+                <div class="iphone-mockup" role="img" aria-label="iPhone 上的 VibeSync App，顯示 AI 實戰練習室畫面">
+                    <span class="iphone-key iphone-key-left iphone-key-action" aria-hidden="true"></span>
+                    <span class="iphone-key iphone-key-left iphone-key-volup" aria-hidden="true"></span>
+                    <span class="iphone-key iphone-key-left iphone-key-voldown" aria-hidden="true"></span>
+                    <span class="iphone-key iphone-key-right iphone-key-power" aria-hidden="true"></span>
+                    <div class="iphone-body">
+                        <div class="iphone-gasket">
+                            <div class="iphone-glass">
+                                <div class="iphone-display">
+                                    <img src="assets/img/screen-practice.webp" alt="" width="780" height="1688" class="absolute inset-0 w-full h-full object-cover">
+                                    <span class="iphone-island" aria-hidden="true"><span class="iphone-lens"></span></span>
+                                </div>
+                                <span class="iphone-glare" aria-hidden="true"></span>
+                            </div>
                         </div>
-                        <i class="ph-fill ph-fire text-4xl text-white/90"></i>
-                    </div>
-
-                    <div class="mt-8 space-y-4">
-                        <div>
-                            <div class="flex justify-between text-sm font-bold mb-1.5"><span class="text-white/85">熱度</span><span>85</span></div>
-                            <div class="h-1.5 rounded-full bg-white/25"><div class="meter-fill h-1.5 rounded-full bg-white" style="width:85%"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm font-bold mb-1.5"><span class="text-white/85">投入度</span><span>90</span></div>
-                            <div class="h-1.5 rounded-full bg-white/25"><div class="meter-fill h-1.5 rounded-full bg-white" style="width:90%"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm font-bold mb-1.5"><span class="text-white/85">回覆意願</span><span>95</span></div>
-                            <div class="h-1.5 rounded-full bg-white/25"><div class="meter-fill h-1.5 rounded-full bg-white" style="width:95%"></div></div>
-                        </div>
-                    </div>
-                    </div>
                     </div>
                 </div>
             </div>
